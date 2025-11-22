@@ -4,10 +4,6 @@
     <meta charset="utf-8" />
     <title>AR Gift</title>
 
-    <!-- Cargar Three.js ANTES -->
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
-
-    <!-- Luego MindAR -->
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.1.4/dist/mindar-image-three.prod.js"></script>
 
     <style>
@@ -44,7 +40,6 @@
         });
 
         const { renderer, scene, camera } = mindarThree;
-
         renderer.setClearColor(0x000000, 0);
 
         const video = document.querySelector("#my-video");

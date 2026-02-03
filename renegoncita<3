@@ -7,7 +7,6 @@
 
 <style>
 :root{--rojo:#ff3b7a}
-
 body{
   margin:0;
   font-family:'Segoe UI',sans-serif;
@@ -16,7 +15,6 @@ body{
   text-align:center;
   overflow-x:hidden;
 }
-
 #particles{position:fixed;inset:0;z-index:-1}
 
 /* BLOQUEO */
@@ -253,10 +251,21 @@ button{
   <div class="media f1"><img src="media/foto1.jpg"></div>
   <div class="media f2"><img src="media/foto2.jpg"></div>
   <div class="media f3"><img src="media/foto3.jpg"></div>
-  <div class="media v1"><video src="media/video1.mp4" autoplay loop muted></video></div>
+
+  <!-- VIDEO 1 -->
+  <div class="media v1">
+    <video src="https://drive.google.com/uc?id=1BRCU5bGdvzAKz75JKeLw9Q13GJyrB9Vt"
+      autoplay loop muted playsinline></video>
+  </div>
+
   <div class="media f4"><img src="media/foto4.jpg"></div>
   <div class="media f5"><img src="media/foto5.jpg"></div>
-  <div class="media v2"><video src="media/video2.mp4" autoplay loop muted></video></div>
+
+  <!-- VIDEO 2 -->
+  <div class="media v2">
+    <video src="https://drive.google.com/uc?id=1FEc7GmoSjUXJWunnMLvcK4WcZkX5GcOw"
+      autoplay loop muted playsinline></video>
+  </div>
 </div>
 
 <p>¿Quieres ser mi San Valentín? 💘</p>
@@ -268,7 +277,6 @@ button{
 
 <div id="final">✨ Mi vida es mas bonita desde que tu estas en ella ✨</div>
 
-<!-- LIGHTBOX -->
 <div id="lightbox">
   <span id="close">✕</span>
   <img id="lightbox-img">
@@ -286,7 +294,6 @@ const pistas=[
 ];
 let tries=0,i=0;
 
-/* UNLOCK */
 function unlock(){
  if(pass.value===PASSWORD){
   lock.classList.add("hide");
@@ -301,7 +308,6 @@ function unlock(){
  }
 }
 
-/* TEXTO */
 function escribir(){
  if(i<texto.length){
   typing.innerHTML+=texto[i++];
@@ -309,7 +315,6 @@ function escribir(){
  }
 }
 
-/* CONTADOR */
 function contar(){
  const dias=Math.floor((Date.now()-inicio)/(1000*60*60*24));
  d.textContent=dias;
@@ -317,16 +322,13 @@ function contar(){
  m.textContent=Math.floor(dias/30.44);
 }
 
-/* BOTONES */
 si.onclick=()=>final.classList.add("show");
 no.onmouseover=()=>{no.style.left=Math.random()*80+"vw";no.style.top=Math.random()*80+"vh"};
 
-/* MUSIC */
 musicBtn.onclick=()=>{
  music.paused?(music.play(),musicBtn.textContent="⏸️"):(music.pause(),musicBtn.textContent="▶️")
 };
 
-/* CORAZONES */
 function corazones(){
  setInterval(()=>{
   const c=document.createElement("div");
@@ -339,7 +341,6 @@ function corazones(){
  },300);
 }
 
-/* PARTÍCULAS */
 const cv=particles,ctx=cv.getContext("2d");
 function rs(){cv.width=innerWidth;cv.height=innerHeight}rs();onresize=rs;
 let p=Array.from({length:70},()=>({x:Math.random()*cv.width,y:Math.random()*cv.height,r:Math.random()*1.5+0.5,v:Math.random()*.3+.1}));
@@ -350,7 +351,6 @@ let p=Array.from({length:70},()=>({x:Math.random()*cv.width,y:Math.random()*cv.h
  requestAnimationFrame(draw);
 })();
 
-/* LIGHTBOX */
 const lightbox=document.getElementById("lightbox");
 const lbImg=document.getElementById("lightbox-img");
 const lbVideo=document.getElementById("lightbox-video");

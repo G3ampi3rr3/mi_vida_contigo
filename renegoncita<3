@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>canelita🤎</title>
+
+<style>
+:root{--rojo:#ff3b7a}
+
+body{
+  margin:0;
+  font-family:'Segoe UI',sans-serif;
+  background:#000;
+  color:white;
+  text-align:center;
+  overflow-x:hidden;
+}
+
+#particles{position:fixed;inset:0;z-index:-1}
+
+/* BLOQUEO */
+#lock{
+  position:fixed;inset:0;
+  background:#000;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:999;
+  transition:1.2s ease;
+}
+#lock.hide{
+  opacity:0;
+  transform:scale(1.2);
+  filter:blur(12px);
+  pointer-events:none;
+}
+.lock-box{
+  background:#111;
+  padding:35px;
+  border-radius:22px;
+  box-shadow:0 0 50px rgba(255,0,90,.6);
+}
+.lock-box input{
+  padding:12px;
+  font-size:18px;
+  border-radius:10px;
+  border:none;
+}
+.lock-box button{
+  margin-top:15px;
+  padding:12px 25px;
+  font-size:18px;
+  border:none;
+  border-radius:12px;
+  background:var(--rojo);
+  color:white;
+}
+.shake{animation:shake .3s}
+@keyframes shake{
+  25%{transform:translateX(-6px)}
+  50%{transform:translateX(6px)}
+}
+
+/* TEXTO */
+h1{margin-top:40px;font-size:38px}
+#typing{font-size:22px;min-height:60px}
+
+/* FECHA */
+.fecha{
+  margin:15px;
+  font-size:18px;
+  letter-spacing:2px;
+  opacity:.8;
+}
+
+/* CONTADOR */
+.contador{
+  display:flex;
+  justify-content:center;
+  gap:20px;
+  flex-wrap:wrap;
+  margin:30px 0;
+}
+.card{
+  background:linear-gradient(135deg,#22000d,#7a0a2a);
+  border-radius:18px;
+  padding:25px;
+  min-width:150px;
+  box-shadow:0 0 35px rgba(255,0,90,.4);
+  animation:glow 3s infinite alternate;
+}
+@keyframes glow{
+  from{box-shadow:0 0 20px rgba(255,0,90,.3)}
+  to{box-shadow:0 0 45px rgba(255,0,90,.7)}
+}
+
+/* GALERÍA */
+.editorial{
+  max-width:1100px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
+  padding:20px;
+}
+.media{
+  position:relative;
+  overflow:hidden;
+  border-radius:22px;
+  cursor:pointer;
+}
+.media::after{
+  content:"";
+  position:absolute;
+  inset:-50%;
+  background:linear-gradient(120deg,transparent,rgba(255,255,255,.15),transparent);
+  animation:shine 6s infinite;
+}
+@keyframes shine{
+  from{transform:translateX(-100%)}
+  to{transform:translateX(100%)}
+}
+.media img,.media video{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:.6s;
+}
+.media:hover img,.media:hover video{transform:scale(1.12)}
+
+.f1{grid-column:1/3;height:220px}
+.f2{grid-column:3;height:220px}
+.f3{grid-column:4;height:220px}
+.v1{grid-column:1/5;height:360px}
+.f4{grid-column:1;height:220px}
+.f5{grid-column:2/4;height:220px}
+.v2{grid-column:4;height:220px}
+
+/* BOTONES */
+.botones{margin:40px}
+button{
+  padding:15px 30px;
+  font-size:20px;
+  border:none;
+  border-radius:14px;
+}
+#si{background:var(--rojo);color:white}
+#no{background:#444;color:white;position:absolute}
+
+/* MENSAJE FINAL */
+#final{
+  opacity:0;
+  transform:translateY(40px);
+  transition:1.2s;
+  font-size:26px;
+}
+#final.show{opacity:1;transform:none}
+
+/* MUSIC */
+#musicBtn{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:var(--rojo);
+  color:white;
+  border:none;
+  border-radius:50%;
+  width:55px;height:55px;
+  font-size:22px;
+}
+
+/* CORAZONES */
+.corazon{
+  position:fixed;
+  top:-10px;
+  animation:fall linear infinite;
+}
+@keyframes fall{
+  to{transform:translateY(110vh);opacity:0}
+}
+
+/* LIGHTBOX */
+#lightbox{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.95);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:2000;
+  opacity:0;
+  pointer-events:none;
+  transition:.4s;
+}
+#lightbox.show{opacity:1;pointer-events:auto}
+#lightbox img,#lightbox video{
+  max-width:90%;
+  max-height:90%;
+  border-radius:18px;
+  box-shadow:0 0 50px rgba(255,0,90,.6);
+  animation:zoom .4s;
+}
+#close{
+  position:absolute;
+  top:20px;
+  right:25px;
+  font-size:32px;
+  cursor:pointer;
+}
+@keyframes zoom{
+  from{transform:scale(.7);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+
+@media(max-width:768px){
+  .editorial{grid-template-columns:1fr 1fr}
+  .v1,.f1,.f5{grid-column:1/3}
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="particles"></canvas>
+
+<div id="lock">
+  <div class="lock-box" id="box">
+    <h2>🔐 Solo para ti</h2>
+    <p id="hint" style="font-size:14px;opacity:.7"></p>
+    <input type="password" id="pass" placeholder="Contraseña">
+    <br>
+    <button onclick="unlock()">Entrar</button>
+  </div>
+</div>
+
+<audio id="music" loop>
+  <source src="media/musica.mp3">
+</audio>
+<button id="musicBtn">⏸️</button>
+
+<h1>😍 Para mi persona favorita 😍</h1>
+<div class="fecha">21 • Septiembre • 2025</div>
+<div id="typing"></div>
+
+<div class="contador">
+  <div class="card"><span id="d">0</span><br>DÍAS</div>
+  <div class="card"><span id="s">0</span><br>SEMANAS</div>
+  <div class="card"><span id="m">0</span><br>MESES</div>
+</div>
+
+<div class="editorial">
+  <div class="media f1"><img src="media/foto1.jpg"></div>
+  <div class="media f2"><img src="media/foto2.jpg"></div>
+  <div class="media f3"><img src="media/foto3.jpg"></div>
+  <div class="media v1"><video src="media/video1.mp4" autoplay loop muted></video></div>
+  <div class="media f4"><img src="media/foto4.jpg"></div>
+  <div class="media f5"><img src="media/foto5.jpg"></div>
+  <div class="media v2"><video src="media/video2.mp4" autoplay loop muted></video></div>
+</div>
+
+<p>¿Quieres ser mi San Valentín? 💘</p>
+
+<div class="botones">
+  <button id="si">Sí ❤️</button>
+  <button id="no">No 💔</button>
+</div>
+
+<div id="final">✨ Mi vida es mas bonita desde que tu estas en ella ✨</div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox">
+  <span id="close">✕</span>
+  <img id="lightbox-img">
+  <video id="lightbox-video" controls></video>
+</div>
+
+<script>
+const PASSWORD="210925";
+const inicio=new Date("2025-09-21");
+const texto="Ese día comenzó mi lugar favorito: contigo 💛";
+const pistas=[
+ "💭 Pista: fue un momento que cambió nuestra historia",
+ "🌼 Pista: septiembre, flores amarillas y sonrisas",
+ "📍 Pista: un parque, una promesa… 21·09·25"
+];
+let tries=0,i=0;
+
+/* UNLOCK */
+function unlock(){
+ if(pass.value===PASSWORD){
+  lock.classList.add("hide");
+  music.play();
+  escribir();
+  setInterval(contar,1000);
+  corazones();
+ }else{
+  box.classList.add("shake");
+  setTimeout(()=>box.classList.remove("shake"),300);
+  if(tries<pistas.length) hint.textContent=pistas[tries++];
+ }
+}
+
+/* TEXTO */
+function escribir(){
+ if(i<texto.length){
+  typing.innerHTML+=texto[i++];
+  setTimeout(escribir,60);
+ }
+}
+
+/* CONTADOR */
+function contar(){
+ const dias=Math.floor((Date.now()-inicio)/(1000*60*60*24));
+ d.textContent=dias;
+ s.textContent=Math.floor(dias/7);
+ m.textContent=Math.floor(dias/30.44);
+}
+
+/* BOTONES */
+si.onclick=()=>final.classList.add("show");
+no.onmouseover=()=>{no.style.left=Math.random()*80+"vw";no.style.top=Math.random()*80+"vh"};
+
+/* MUSIC */
+musicBtn.onclick=()=>{
+ music.paused?(music.play(),musicBtn.textContent="⏸️"):(music.pause(),musicBtn.textContent="▶️")
+};
+
+/* CORAZONES */
+function corazones(){
+ setInterval(()=>{
+  const c=document.createElement("div");
+  c.className="corazon";
+  c.innerHTML="💖";
+  c.style.left=Math.random()*100+"vw";
+  c.style.animationDuration=(3+Math.random()*3)+"s";
+  document.body.appendChild(c);
+  setTimeout(()=>c.remove(),6000);
+ },300);
+}
+
+/* PARTÍCULAS */
+const cv=particles,ctx=cv.getContext("2d");
+function rs(){cv.width=innerWidth;cv.height=innerHeight}rs();onresize=rs;
+let p=Array.from({length:70},()=>({x:Math.random()*cv.width,y:Math.random()*cv.height,r:Math.random()*1.5+0.5,v:Math.random()*.3+.1}));
+(function draw(){
+ ctx.clearRect(0,0,cv.width,cv.height);
+ ctx.fillStyle="rgba(255,255,255,.6)";
+ p.forEach(o=>{o.y+=o.v;if(o.y>cv.height)o.y=0;ctx.beginPath();ctx.arc(o.x,o.y,o.r,0,Math.PI*2);ctx.fill()});
+ requestAnimationFrame(draw);
+})();
+
+/* LIGHTBOX */
+const lightbox=document.getElementById("lightbox");
+const lbImg=document.getElementById("lightbox-img");
+const lbVideo=document.getElementById("lightbox-video");
+
+document.querySelectorAll(".media img, .media video").forEach(el=>{
+ el.onclick=()=>{
+  lightbox.classList.add("show");
+  if(el.tagName==="IMG"){
+   lbImg.src=el.src;
+   lbImg.style.display="block";
+   lbVideo.style.display="none";
+   lbVideo.pause();
+  }else{
+   lbVideo.src=el.src;
+   lbVideo.style.display="block";
+   lbImg.style.display="none";
+   lbVideo.play();
+  }
+ };
+});
+
+close.onclick=()=>{
+ lightbox.classList.remove("show");
+ lbVideo.pause();
+};
+
+lightbox.onclick=e=>{
+ if(e.target===lightbox){
+  lightbox.classList.remove("show");
+  lbVideo.pause();
+ }
+};
+</script>
+
+</body>
+</html>
